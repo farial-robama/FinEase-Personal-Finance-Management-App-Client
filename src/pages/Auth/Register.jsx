@@ -72,7 +72,7 @@ const Register = () => {
               <fieldset className="fieldset">
                 {/* Name */}
                 <label className="label">
-                  photoURL
+                  Name
                 </label>
                 <input
                   value={name}
@@ -167,7 +167,7 @@ const Register = () => {
                   <p>
                     Already have an account?
                     <Link
-                      tp="/auth/login"
+                      to="/auth/login"
                       className="text-[#954ef9] text-sm font-bold link link-hover"
                     >
                       Login
