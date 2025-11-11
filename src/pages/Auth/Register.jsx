@@ -12,7 +12,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -32,12 +32,29 @@ const Register = () => {
       return;
     }
     try {
+        console.log("Creating user with:", email, password);
       const userCredential = await createUser(email, password);
       await updateUserProfile({
         displayName: name,
         photoURL: photoURL || "/default-profile.png",
       });
-      toast.success("Registtation successful!");
+
+      const response = await fetch("http://localhost:3000/users", {
+            method: "POST",
+            headers: { "Content-Type" : "application/json"},
+            body: JSON.stringify({
+                name,
+                email,
+                photoURL: photoURL || "/default-profile.png"
+            }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to add user")
+      }
+      toast.success(data.message || "Registtation successful!")
+    
       navigate("/");
     } catch (err) {
       setError(err.message);
