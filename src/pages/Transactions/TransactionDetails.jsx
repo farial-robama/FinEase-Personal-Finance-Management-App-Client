@@ -3,15 +3,17 @@ import { useNavigate, useParams } from 'react-router';
 import Swal from 'sweetalert2';
 import Loader from '../../components/Loader';
 import { AuthContext } from '../../contexts/AuthContext';
-import { FaCalendarDay, FaDailymotion } from 'react-icons/fa';
+import { FaCalendarDay, FaCross, FaDailymotion } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import UpdateTransaction from './UpdateTransaction';
 
 const TransactionDetails = () => {
     const { id } = useParams();
     const { user } = use(AuthContext);
     const [transaction, setTransaction] = useState(null);
     const [allTransaction, setAllTransaction] = useState([]);
-    const [categoryTotal, setCategoryTotal] = useState(0)
+    const [categoryTotal, setCategoryTotal] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false)
       const [isLoading, setIsLoading] = useState(true);
       const navigate = useNavigate()
 
@@ -70,6 +72,7 @@ const TransactionDetails = () => {
       }
 
     return (
+      <div>
         <motion.div className="card w-96 shadow-sm mx-auto bg-[#dcf3f5] border-2 border-[#cec0a9]
         "
         initial={{ opacity: 0, y: 30 }}
@@ -97,11 +100,31 @@ const TransactionDetails = () => {
     </div>
     
     <div className="card-actions justify-end pt-3.5">
-      <div onClick={() => navigate(`/transaction/update/${transaction._id}`)} className="badge white-outline bg-[#c9dcc0] cursor-pointer">Update</div>
+      <div onClick={() => setIsModalOpen(true)} className="badge white-outline bg-[#c9dcc0] cursor-pointer">Update</div>
       <div onClick={() => handleDelete(transaction._id)} className="badge white-outline bg-[#c9dcc0] cursor-pointer">Delete</div>
     </div>
   </div>
 </motion.div>
+
+{isModalOpen && transaction && (
+  <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50'>
+  <div className='bg-white rounded-xl p-6 w-96 shadow-lg relative'>
+  
+
+  <UpdateTransaction transaction={transaction} onClose = {(updated) => {
+    setIsModalOpen(false);
+    if (updated) {
+      fetch(`http://localhost:5000/transactions/id/${id}`)
+      .then(res => res.json())
+      .then(data => setTransaction(data))
+    }
+  }}>
+
+  </UpdateTransaction>
+  </div>
+  </div>
+)}
+</div>
     );
 };
 
