@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { use, useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -6,7 +6,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const { createUser, updateUserProfile, signInWithGoogle, loading } =
-    use(AuthContext);
+    useContext(AuthContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,11 +26,12 @@ const Register = () => {
       setError(
         "Password must have at least 6 characters, 1  uppercase, 1 lowecase!"
       );
-      toast(
-        "Weak password! Password must have at least 6 characters, 1  uppercase, 1 lowecase."
+      toast.error(
+        "Weak password! Password must have at least 6 characters, 1  uppercase letter & 1 lowercase letter."
       );
       return;
     }
+
     try {
         console.log("Creating user with:", email, password);
       const userCredential = await createUser(email, password);
@@ -38,28 +39,35 @@ const Register = () => {
         displayName: name,
         photoURL: photoURL || "/default-profile.png",
       });
-
-      const response = await fetch("http://localhost:3000/users", {
-            method: "POST",
-            headers: { "Content-Type" : "application/json"},
-            body: JSON.stringify({
-                name,
-                email,
-                photoURL: photoURL || "/default-profile.png"
-            }),
-      });
-
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to add user")
-      }
-      toast.success(data.message || "Registtation successful!")
-    
+      toast.success("Registration sucessfull!");
       navigate("/");
-    } catch (err) {
+    } catch(err) {
       setError(err.message);
-      toast.error("Failed to register! Please try again.");
+      toast.error("Registration failed! please try again")
     }
+  
+
+    //   const response = await fetch("http://localhost:5000/users", {
+    //         method: "POST",
+    //         headers: { "Content-Type" : "application/json"},
+    //         body: JSON.stringify({
+    //             name,
+    //             email,
+    //             photoURL: photoURL || "/default-profile.png"
+    //         }),
+    //   });
+
+    //   const data = await response.json();
+    //   if (!response.ok) {
+    //     throw new Error(data.message || "Failed to add user")
+    //   }
+    //   toast.success(data.message || "Registtation successful!")
+    
+    //   navigate("/");
+    // } catch (err) {
+    //   setError(err.message);
+    //   toast.error("Failed to register! Please try again.");
+    // }
   };
   const handleGoogleLogin = async (e) => {
     e.preventDefault();
@@ -69,7 +77,7 @@ const Register = () => {
       const loggedUser = result.user;
       const userName = loggedUser.displayName || "User!";
       const photoURL = loggedUser.photoURL || "/default-profile.png";
-      await updateUserProfile({ userName, photoURL });
+      await updateUserProfile({ displayName: userName, photoURL });
       toast.success(`Welcome ${userName}`);
       navigate("/");
     } catch (err) {
@@ -101,7 +109,7 @@ const Register = () => {
                 />
 
                 {/* photoURL */}
-                <label value={photoURL} className="label">
+                <label className="label">
                   photoURL
                 </label>
                 <input

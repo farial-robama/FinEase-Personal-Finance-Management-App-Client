@@ -1,17 +1,18 @@
 import React, { use } from "react";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useLocation } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import toast from "react-hot-toast";
 
 const Navbar = () => {
-  const {user, logOut} = use(AuthContext)
+  const {user, signOutUser} = use(AuthContext)
+  const location = useLocation()
   const links = [
     { name: "Home", to: "/" },
     {
       name: "Transactions",
       sublinks: [
-        { name: "Add Transaction", to: "/add-transaction" },
-        { name: "My Transaction", to: "/my-transactions" },
+        { name: "Add Transaction", to: "/transaction" },
+        { name: "My Transaction", to: "/transaction/my" },
       ],
     },
     { name: "Reports", to: "/reports" },
@@ -19,7 +20,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await logOut()
+      await signOutUser()
       toast.success("You logged out successfully!")
     }
     catch(err) {
@@ -27,6 +28,8 @@ const Navbar = () => {
       
     }
   }
+
+  
 
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -57,14 +60,14 @@ const Navbar = () => {
               link.sublinks ? (
                 <li key={i}>
                   <details>
-                    <summary>{link.name}</summary>
+                    <summary className={link.sublinks.some(sub => sub.to === location.pathname) ? "gradient-text" : ""}>{link.name}</summary>
                     <ul className="p-2">
                       {link.sublinks.map((sub, j) => (
                         <li key={j}>
                           <NavLink
                             to={sub.to}
                             className={({ isActive }) =>
-                              isActive ? "text-purple-600 font-bold" : ""
+                              isActive ? "gradient-text" : ""
                             }
                           >
                             {sub.name}
@@ -79,7 +82,7 @@ const Navbar = () => {
                   <NavLink
                     to={link.to}
                     className={({ isActive }) =>
-                      isActive ? "text-purple-600 font-bold" : ""
+                      isActive? "gradient-text" : ""
                     }
                   >
                     {link.name}
@@ -95,16 +98,16 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">
           {links.map((link, i) =>
               link.sublinks ? (
-                <li key={i}>
+                <li key={i} className="relative">
                   <details>
-                    <summary>{link.name}</summary>
-                    <ul className="p-2">
+                    <summary><span className={link.sublinks.some(sub => sub.to === location.pathname) ? "gradient-text" : ""}>{link.name}</span></summary>
+                    <ul className="p-2 absolute top-full right-0 transform -translate-x-1/2 bg-base-300 rounded-box w-40 z-20 shadow-lg mb-2 ">
                       {link.sublinks.map((sub, j) => (
                         <li key={j}>
                           <NavLink
                             to={sub.to}
                             className={({ isActive }) =>
-                              isActive ? "text-purple-600 font-bold" : ""
+                              isActive ? "gradient-text" : ""
                             }
                           >
                             {sub.name}
@@ -119,7 +122,7 @@ const Navbar = () => {
                   <NavLink
                     to={link.to}
                     className={({ isActive }) =>
-                      isActive ? "text-purple-600 font-bold" : ""
+                      isActive ? "gradient-text" : ""
                     }
                   >
                     {link.name}

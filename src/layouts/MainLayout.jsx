@@ -6,11 +6,11 @@ import { Toaster } from 'react-hot-toast';
 
 const MainLayout = () => {
     return (
-        <div className='min-h-screen'>
+        <div className='min-h-screen bg-[#f3efea]'>
             <nav>
                 <Navbar></Navbar>
             </nav>
-            <main className='flex-grow px-4 md:px-10 py-10 mx-auto'>
+            <main className='flex-grow px-4 md:px-10 py-10 mx-auto '>
                 <Outlet></Outlet>
             </main>
             <footer>

@@ -22,8 +22,8 @@ const TransactionCard = ({transaction, onDelete}) => {
             </div>
             
             <div className='flex flex-col gap-2 items-end'>
-                <Link to={`/my-transactions/${_id}`} className="btn btn-info rounded-2xl px-2 py-1">View Details</Link>
-            <Link to={`/my-transactions/update/${_id}`} className="btn btn-success rounded-2xl px-2 py-1">Update</Link>
+                <Link to={`/transaction/${_id}`} className="btn btn-info rounded-2xl px-2 py-1">View Details</Link>
+            <Link to={`/transaction/update/${_id}`} className="btn btn-success rounded-2xl px-2 py-1">Update</Link>
             <button onClick={() => onDelete(_id)} className="btn btn-warning rounded-2xl px-2 py-1">Delete</button>
             </div>
         </div>

@@ -9,7 +9,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -54,7 +54,8 @@ const Login = () => {
               <fieldset className="fieldset">
                 {/* Email */}
                 <label className="label">Email</label>
-                <input type="email" className="input" placeholder="Email" />
+                <input value={email}
+                    onChange={(e) => setEmail(e.target.value)} type="email" className="input" placeholder="Email" required />
 
                 {/* Password */}
                 <label className="label">Password</label>

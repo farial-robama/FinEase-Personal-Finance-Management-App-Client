@@ -6,9 +6,9 @@ import { AuthContext } from "./AuthContext";
 const googleProvider = new GoogleAuthProvider()
 
 
-const AuthPovider = ({ children }) => {
+const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
-    const [loading, setLoading] =useState(null)
+    const [loading, setLoading] =useState(true)
 
     const createUser = (email, password) => {
         setLoading(true)
@@ -61,4 +61,4 @@ const AuthPovider = ({ children }) => {
     )
 }
 
-export default AuthPovider;
+export default AuthProvider;
