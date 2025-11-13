@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { auth } from "../Firebase/firebase.config";
 import { AuthContext } from "./AuthContext";
@@ -7,8 +7,14 @@ const googleProvider = new GoogleAuthProvider()
 
 
 const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null)
-    const [loading, setLoading] =useState(true)
+    
+    const [loading, setLoading] =useState(false)
+
+    const [user, setUser] = useState(() => {
+        const storedUser = localStorage.getItem("auth_user")
+        return storedUser ? JSON.parse(storedUser) : null;
+    })
+
 
     const createUser = (email, password) => {
         setLoading(true)
@@ -31,12 +37,21 @@ const AuthProvider = ({ children }) => {
 
     const signOutUser = () => {
         setLoading(true)
+        localStorage.removeItem("auth_user")
+        setUser(null)
         return signOut(auth)
+        .finally(() => setLoading(false))
+    }
+
+    const getIdToken = async () => {
+        if(!user) return null;
+        return await auth.currentUser.getIdToken();
     }
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser)
+            localStorage.setItem("auth_user", JSON.stringify(currentUser))
             setLoading(false)
         })
         return () => {
@@ -51,7 +66,8 @@ const AuthProvider = ({ children }) => {
         signInWithGoogle,
         signOutUser,
         user,
-        loading
+        loading,
+        getIdToken
     }
 
     return(

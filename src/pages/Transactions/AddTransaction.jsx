@@ -1,13 +1,18 @@
-import React, { use, useState } from "react";
+import React, { use, useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import toast from "react-hot-toast";
 
 const AddTransaction = () => {
-  const { user } = use(AuthContext);
+  const { user } = useContext(AuthContext);
 
-const incomeCategories = ["Salary", "Business", "Invesment", "Gift", "Others"];
-const expenseCategories = ["Food", "Transport", "Rent", "Shopping", "Bills"];
-
+  const incomeCategories = [
+    "Salary",
+    "Business",
+    "Invesment",
+    "Gift",
+    "Others",
+  ];
+  const expenseCategories = ["Food", "Transport", "Rent", "Shopping", "Bills"];
 
   const [formData, setFormData] = useState({
     type: "",
@@ -23,13 +28,30 @@ const expenseCategories = ["Food", "Transport", "Rent", "Shopping", "Bills"];
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!user) {
+      toast.error("Please login!");
+      return;
+    }
 
     try {
-      const res = await fetch("http://localhost:5000/transactions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+      const token = await user.getIdToken(true);
+      console.log("user", user);
+      console.log("Sending token:", token);
+      console.log("Headers:", {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       });
+      const res = await fetch(
+        "https://finease-personal-finance-management.vercel.app/transactions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await res.json();
       if (res.ok) {
         toast.success("Transaction added successfully!");
@@ -54,77 +76,84 @@ const expenseCategories = ["Food", "Transport", "Rent", "Shopping", "Bills"];
     <div className="max-w-md mx-auto text-center bg-[#8FABD4] rounded-md p-3">
       <h1 className="text-2xl font-bold">Add Transaction Here!</h1>
       <div className="card-body">
-        
         <form onSubmit={handleSubmit} className=" flex flex-col space-y-2.5">
-            <fieldset className="fieldset">
-        <select
-          defaultValue="Text"
-          name="type"
-          value={formData.type || ""}
-          onChange={handleChange}
-          className="select select-bordered w-full"
-          required
-        >
-          <option value="" disabled >Pick a type</option>
-          <option value="Income">Income</option>
-          <option value="Expense">Expense</option>
-        </select>
+          <fieldset className="fieldset">
+            <select
+              defaultValue="Text"
+              name="type"
+              value={formData.type || ""}
+              onChange={handleChange}
+              className="select select-bordered w-full"
+              required
+            >
+              <option value="" disabled>
+                Pick a type
+              </option>
+              <option value="Income">Income</option>
+              <option value="Expense">Expense</option>
+            </select>
 
-        <select
-          type="text"
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-          placeholder="Category"
-          className="select select-bordered w-full"
-          required
-        >
-          
-         <option value="" disabled> Pick a category</option>
-         {(formData.type === "Income" ? incomeCategories : expenseCategories).map((cat, index) => (
-          <option key={index} value={cat}>{cat}</option>
-         ))}
+            <select
+              type="text"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              placeholder="Category"
+              className="select select-bordered w-full"
+              required
+            >
+              <option value="" disabled>
+                {" "}
+                Pick a category
+              </option>
+              {(formData.type === "Income"
+                ? incomeCategories
+                : expenseCategories
+              ).map((cat, index) => (
+                <option key={index} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
 
-        </select>
+            <input
+              type="number"
+              name="amount"
+              value={formData.amount}
+              onChange={handleChange}
+              placeholder="Amount"
+              className="input input-bordered w-full"
+              required
+            />
 
-        <input
-          type="number"
-          name="amount"
-          value={formData.amount}
-          onChange={handleChange}
-          placeholder="Amount"
-          className="input input-bordered w-full"
-          required
-        />
+            <textarea
+              type="description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className=" textarea textarea-bordered w-full"
+              placeholder="Description"
+            ></textarea>
 
-        <textarea
-          type="description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          className=" textarea textarea-bordered w-full"
-          placeholder="Description"
-        ></textarea>
-
-        <input
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-          placeholder="Date"
-          className="input input-bordered w-full"
-          required
-        />
-        <button type="submit" className="btn btn-active bg-[#C2E2FA] text-[#39505a] w-full">
-          Add Transaction
-        </button>
-
-        </fieldset>
-        
-      </form>
-      
+            <input
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              placeholder="Date"
+              className="input input-bordered w-full"
+              required
+            />
+            <button
+              type="submit"
+              className="btn btn-active bg-[#C2E2FA] text-[#39505a] w-full"
+            >
+              Add Transaction
+            </button>
+          </fieldset>
+        </form>
       </div>
-      </div>
+    </div>
   );
 };
 

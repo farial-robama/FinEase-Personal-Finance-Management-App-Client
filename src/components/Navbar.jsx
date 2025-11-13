@@ -4,7 +4,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import toast from "react-hot-toast";
 
 const Navbar = () => {
-  const {user, signOutUser} = use(AuthContext)
+  const {user, signOutUser, loading} = use(AuthContext)
   const location = useLocation()
   const links = [
     { name: "Home", to: "/" },
@@ -133,7 +133,10 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        {user ? (
+        {loading ? (
+          <span className="loading loading-spinner loading-sm"></span>
+        ) : 
+        user ? (
           <div className="flex items-center gap-3">
             <Link to="/my-profile">
             <img src={user.photoURL || "/default-profile.png"}
@@ -151,6 +154,7 @@ const Navbar = () => {
           </div>
         )
       }
+        
       </div>
     </div>
   );

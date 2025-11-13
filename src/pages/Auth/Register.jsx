@@ -33,7 +33,7 @@ const Register = () => {
     }
 
     try {
-        console.log("Creating user with:", email, password);
+      console.log("Creating user with:", email, password);
       const userCredential = await createUser(email, password);
       await updateUserProfile({
         displayName: name,
@@ -41,13 +41,12 @@ const Register = () => {
       });
       toast.success("Registration sucessfull!");
       navigate("/");
-    } catch(err) {
+    } catch (err) {
       setError(err.message);
-      toast.error("Registration failed! please try again")
+      toast.error("Registration failed! please try again");
     }
-  
 
-    //   const response = await fetch("http://localhost:5000/users", {
+    //   const response = await fetch("https://finease-personal-finance-management.vercel.app/users", {
     //         method: "POST",
     //         headers: { "Content-Type" : "application/json"},
     //         body: JSON.stringify({
@@ -62,7 +61,7 @@ const Register = () => {
     //     throw new Error(data.message || "Failed to add user")
     //   }
     //   toast.success(data.message || "Registtation successful!")
-    
+
     //   navigate("/");
     // } catch (err) {
     //   setError(err.message);
@@ -96,9 +95,7 @@ const Register = () => {
             <form onSubmit={handleSubmit}>
               <fieldset className="fieldset">
                 {/* Name */}
-                <label className="label">
-                  Name
-                </label>
+                <label className="label">Name</label>
                 <input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -109,9 +106,7 @@ const Register = () => {
                 />
 
                 {/* photoURL */}
-                <label className="label">
-                  photoURL
-                </label>
+                <label className="label">photoURL</label>
                 <input
                   onChange={(e) => setPhotoURL(e.target.value)}
                   type="text"

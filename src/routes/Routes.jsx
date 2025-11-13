@@ -37,7 +37,7 @@ export const router = createBrowserRouter([
             element: <MyTransactions></MyTransactions>,
           },
           {
-            path: ":id",
+            path: "details/:id",
             element: <TransactionDetails></TransactionDetails>,
           },
           {
