@@ -24,7 +24,6 @@ const TransactionDetails = () => {
       setIsLoading(true);
       try {
         
-        console.log(token);
 
         const res = await fetch(
           `https://finease-personal-finance-management.vercel.app/transactions/id/${id}`,

@@ -1,5 +1,4 @@
 
-
 @import "tailwindcss";
 @plugin "daisyui";
 
@@ -10,25 +9,7 @@
   }
 }
 
-/* .button,
-.button:focus {
-  font-size: 17px;
-  padding: 7px 20px;
-  border-radius: 0.7rem;
-  background-image: linear-gradient(rgb(214, 202, 254), rgb(158, 129, 254));
-  border: 2px solid rgb(50, 50, 50);
-  border-bottom: 5px solid rgb(50, 50, 50);
-  box-shadow: 0px 1px 6px 0px rgb(158, 129, 254);
-  transform: translate(0, -3px);
-  cursor: pointer;
-  transition: 0.2s;
-  transition-timing-function: linear;
-}
 
-.button:active {
-  transform: translate(0, 0);
-  border-bottom: 2px solid rgb(50, 50, 50);
-} */
 
 .button {
   background: linear-gradient(4deg ,#975af4, #2f7cf8 40%, #78aafa 75%, #934cff 100%) ;
@@ -51,23 +32,3 @@
   transform: scale(1);
 }
 
-
-
-    /* padding: 8px;
-    border: none;
-    width: 100%;
-    border-radius: 8px;
-    color: white;
-    font-size: 12px;
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
-    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.6);
-  }
-  .card-container .card-content .card-btn:hover {
-    color: #ffffff;
-    text-shadow: 0 0 8px #fff;
-    transform: scale(1.03);
-  }
-  .card-container .card-content .card-btn:active {
-    transform: scale(1);
-  }`; */ 

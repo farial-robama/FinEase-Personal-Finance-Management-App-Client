@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 
 const AddTransaction = () => {
   const { user } = useContext(AuthContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const incomeCategories = [
     "Salary",
@@ -24,17 +24,14 @@ const AddTransaction = () => {
     date: "",
   });
 
-  
-
   useEffect(() => {
     if (user) {
       setFormData((prev) => ({
         ...prev,
         date: prev.date || new Date().toISOString().split("T")[0],
-      }))
+      }));
     }
-  },[user])
-
+  }, [user]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -45,36 +42,33 @@ const AddTransaction = () => {
       toast.error("Please login!");
       return;
     }
-   
-  const { type, category, amount, date} =formData;
-  if (!type || !category || !amount || !date) {
-    toast.error("Please fill in all required fields!");
-    return
-  }
 
-  const payload = {
-    ...formData,
-  userEmail: user.email,
-amound: Number(formData.amount),
-date: formData.date || new Date().toISOString().split("T")[0]
-}
+    const { type, category, amount, date } = formData;
+    if (!type || !category || !amount || !date) {
+      toast.error("Please fill in all required fields!");
+      return;
+    }
 
-
+    const payload = {
+      ...formData,
+      userName: user.displayName,
+      userEmail: user.email,
+      date: formData.date || new Date().toISOString().split("T")[0],
+    };
 
     try {
-      
       const res = await fetch(
         "https://finease-personal-finance-management.vercel.app/transactions",
         {
           method: "POST",
-          headers: {"Content-Type": "application/json"},
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         }
       );
       const data = await res.json();
       if (res.ok) {
         toast.success("Transaction added successfully!");
-        
+
         setFormData({
           type: "",
           category: "",

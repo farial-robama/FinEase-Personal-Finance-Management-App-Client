@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "finase-3877"
-  }
+    "default": "finease-client"
+  },
+  "targets": {},
+  "etags": {}
 }
