@@ -35,14 +35,12 @@ const UpdateTransaction = ({ transaction, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = await user.getIdToken();
       const res = await fetch(
         `https://finease-personal-finance-management.vercel.app/transactions/${transaction._id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(formData),
         }

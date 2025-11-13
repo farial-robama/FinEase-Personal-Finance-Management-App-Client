@@ -10,6 +10,7 @@ import Register from "../pages/Auth/Register";
 import PrivateRoute from "./PrivateRoute";
 import TransactionDetails from "../pages/Transactions/TransactionDetails";
 import UpdateTransaction from "../pages/Transactions/UpdateTransaction";
+import UpdateProfile from "../pages/Profile/UpdateProfile";
 
 export const router = createBrowserRouter([
   {
@@ -48,11 +49,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "/reports",
-        element: <Reports></Reports>,
+        element: (<PrivateRoute><Reports></Reports></PrivateRoute>),
       },
       {
         path: "/my-profile",
-        element: <MyProfile></MyProfile>,
+        element: (<PrivateRoute><MyProfile></MyProfile></PrivateRoute>),
+      },
+      {
+        path: "/update-profile",
+        element: (<PrivateRoute><UpdateProfile></UpdateProfile></PrivateRoute>),
       },
       {
         path: "/auth/login",

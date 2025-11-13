@@ -1,9 +1,11 @@
-import React, { use, useContext, useState } from "react";
+import React, { use, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 const AddTransaction = () => {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate()
 
   const incomeCategories = [
     "Salary",
@@ -20,9 +22,20 @@ const AddTransaction = () => {
     amount: "",
     description: "",
     date: "",
-    userEmail: user?.email || "",
-    userName: user?.displayName || "",
   });
+
+  
+
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        date: prev.date || new Date().toISOString().split("T")[0],
+      }))
+    }
+  },[user])
+
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -32,29 +45,36 @@ const AddTransaction = () => {
       toast.error("Please login!");
       return;
     }
+   
+  const { type, category, amount, date} =formData;
+  if (!type || !category || !amount || !date) {
+    toast.error("Please fill in all required fields!");
+    return
+  }
+
+  const payload = {
+    ...formData,
+  userEmail: user.email,
+amound: Number(formData.amount),
+date: formData.date || new Date().toISOString().split("T")[0]
+}
+
+
 
     try {
-      const token = await user.getIdToken(true);
-      console.log("user", user);
-      console.log("Sending token:", token);
-      console.log("Headers:", {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      });
+      
       const res = await fetch(
         "https://finease-personal-finance-management.vercel.app/transactions",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(formData),
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(payload),
         }
       );
       const data = await res.json();
       if (res.ok) {
         toast.success("Transaction added successfully!");
+        
         setFormData({
           type: "",
           category: "",

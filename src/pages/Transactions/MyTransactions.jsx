@@ -4,8 +4,9 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import TransactionCard from "./TransactionCard";
 import Loader from "../../components/Loader";
-import { Navigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 import UpdateTransaction from "./UpdateTransaction";
+
 
 const MyTransactions = () => {
   const { user, loading } = useContext(AuthContext);
@@ -14,35 +15,36 @@ const MyTransactions = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [sortOrder, setSortOrder] = useState("");
+ 
 
-  useEffect(() => {
-    const fetchTransactions = async () => {
+  
+    useEffect(() => {
+      const fetchTransactions = async () => {
       if (!user) return;
       setIsLoading(true);
 
       try {
-        const token = await user.getIdToken();
-
-        let query = "";
-        if (sortOrder === "date-asc")
-          query = "sortField=createdAt&sortOrder=asc";
-        else if (sortOrder === "date-desc")
-          query = "sortField=createdAt&sortOrder=desc";
-        else if (sortOrder === "amount-asc")
-          query = "sortField=createdAt&sortOrder=asc";
-        else if (sortOrder === "amount-desc")
-          query = "sortField=createdAt&sortOrder=desc";
+        // let query = "";
+        // if (sortOrder === "date-asc")
+        //   query = "sortField=createdAt&sortOrder=asc";
+        // else if (sortOrder === "date-desc")
+        //   query = "sortField=createdAt&sortOrder=desc";
+        // else if (sortOrder === "amount-asc")
+        //   query = "sortField=amount&sortOrder=asc";
+        // else if (sortOrder === "amount-desc")
+        //   query = "sortField=amount&sortOrder=desc";
 
         const res = await fetch(
-          `https://finease-personal-finance-management.vercel.app/transactions/${user.email}?${query}`,
+          `https://finease-personal-finance-management.vercel.app/transactions/${user.email}`,
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: {"Content-Type": "application/json"},
           }
         );
         const data = await res.json();
-        setTransactions(data);
+        const transactionsArray = Array.isArray(data) ? data : data?.transactions || []
+
+        setTransactions(transactionsArray);
+        
       } catch (err) {
         console.error("Error fetching transactions", err);
       } finally {
@@ -50,7 +52,10 @@ const MyTransactions = () => {
       }
     };
     fetchTransactions();
-  }, [user, sortOrder]);
+    }, [user])
+  
+
+  
 
   if (loading) {
     return <Loader></Loader>;
@@ -58,7 +63,7 @@ const MyTransactions = () => {
   if (!user) {
     return <Navigate to="/auth/login" replace></Navigate>;
   }
-
+  
   const handleDelete = async (id) => {
     const result = await Swal.fire({
       title: "Are you sure?",
@@ -69,12 +74,10 @@ const MyTransactions = () => {
     });
     if (result.isConfirmed) {
       try {
-        const token = await user.getIdToken();
         const res = await fetch(
           `https://finease-personal-finance-management.vercel.app/transactions/${id}`,
           {
             method: "DELETE",
-            headers: { Authorization: `Bearer ${token}` },
           }
         );
         const data = await res.json();
@@ -88,18 +91,18 @@ const MyTransactions = () => {
     }
   };
 
-  // const sortedTransactions = [...transactions].sort((a, b) => {
-  //   if (sortOrder === "date-asc") {
-  //     return new Date(a.date) - new Date(b.date);
-  //   } else if (sortOrder === "date-desc") {
-  //     return new Date(b.date) - new Date(a.date);
-  //   } else if (sortOrder === "amount-asc") {
-  //     return a.amount - b.amount;
-  //   } else if (sortOrder === "amount-desc") {
-  //     return b.amount - a.amount;
-  //   }
-  //   return 0;
-  // });
+  const sortedTransactions = [...transactions].sort((a, b) => {
+    if (sortOrder === "date-asc") {
+      return new Date(a.date) - new Date(b.date);
+    } else if (sortOrder === "date-desc") {
+      return new Date(b.date) - new Date(a.date);
+    } else if (sortOrder === "amount-asc") {
+      return a.amount - b.amount;
+    } else if (sortOrder === "amount-desc") {
+      return b.amount - a.amount;
+    }
+    return 0;
+  });
 
   const handleUpdate = (transaction) => {
     setSelectedTransaction(transaction);
@@ -161,11 +164,12 @@ const MyTransactions = () => {
       {/* Transactions List */}
       {isLoading ? (
         <Loader></Loader>
-      ) : transactions.length === 0 ? (
+      ) : sortedTransactions.length === 0 ? (
+      
         <p className="text-gray-400 font-bold">No data found</p>
       ) : (
         <div className="flex flex-col gap-5">
-          {transactions.map((transaction) => (
+          {sortedTransactions.map((transaction) => (
             <TransactionCard
               key={transaction._id}
               transaction={transaction}
@@ -185,13 +189,8 @@ const MyTransactions = () => {
               onClose={async (updated) => {
                 setIsModalOpen(false);
                 if (updated) {
-                  const token = await user.getIdToken();
                   const res = await fetch(
-                    `https://finease-personal-finance-management.vercel.app/transactions/id/${selectedTransaction._id}`,
-                    {
-                      headers: { Authorization: `Bearer ${token}` },
-                    }
-                  );
+                    `https://finease-personal-finance-management.vercel.app/transactions/id/${selectedTransaction._id}` );
                   const data = await res.json();
                   setSelectedTransaction(data);
                 }

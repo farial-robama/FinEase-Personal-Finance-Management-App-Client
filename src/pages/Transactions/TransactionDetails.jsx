@@ -23,13 +23,13 @@ const TransactionDetails = () => {
 
       setIsLoading(true);
       try {
-        const token = await user.getIdToken();
+        
         console.log(token);
 
         const res = await fetch(
           `https://finease-personal-finance-management.vercel.app/transactions/id/${id}`,
           {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: {"Content-Type": "application/json"},
           }
         );
         const data = await res.json();
@@ -53,12 +53,12 @@ const TransactionDetails = () => {
     });
     if (result.isConfirmed) {
       try {
-        const token = await user.getIdToken();
+        
         const res = await fetch(
           `https://finease-personal-finance-management.vercel.app/transactions/${id}`,
           {
             method: "DELETE",
-            headers: { Authorization: `Bearer ${token}` },
+            headers: {"Content-Type": "application/json"},
           }
         );
         const data = await res.json();
@@ -138,11 +138,11 @@ const TransactionDetails = () => {
               onClose={async (updated) => {
                 setIsModalOpen(false);
                 if (updated) {
-                  const token = await user.getIdToken();
+                  
                   const res = await fetch(
                     `https://finease-personal-finance-management.vercel.app/transactions/id/${id}`,
                     {
-                      headers: { Authorization: `Bearer ${token}` },
+                      headers: {"Content-Type": "application/json"},
                     }
                   );
                   const data = await res.json();
