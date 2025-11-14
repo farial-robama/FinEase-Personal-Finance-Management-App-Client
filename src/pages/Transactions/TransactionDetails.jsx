@@ -81,15 +81,15 @@ const TransactionDetails = () => {
   return (
     <div>
       <motion.div
-        className="card w-96 shadow-sm mx-auto bg-[#dcf3f5] border-2 border-[#cec0a9]
-        "
+        className="card w-96 shadow-lg mx-auto bg-[#AAC4F5] border-2 border-[#cfc6b6]
+        text-gray-800"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
         whileHover={{ scale: 1.06 }}
       >
         <div className="card-body">
-          <span className="badge badge-xs white-outline bg-[#ECF4E8]">
+          <span className="badge badge-xs white-outline bg-[#ECF4E8] text-gray-800">
             See Details!
           </span>
           <div className="flex justify-between items-center border-b border-dashed border-gray-500 pb-3">
@@ -115,13 +115,13 @@ const TransactionDetails = () => {
           <div className="card-actions justify-end pt-3.5">
             <div
               onClick={() => setIsModalOpen(true)}
-              className="badge white-outline bg-[#c9dcc0] cursor-pointer"
+              className="badge white-outline bg-[#c9dcc0] text-gray-800 cursor-pointer"
             >
               Update
             </div>
             <div
               onClick={() => handleDelete(transaction._id)}
-              className="badge white-outline bg-[#c9dcc0] cursor-pointer"
+              className="badge white-outline bg-[#c9dcc0] text-gray-800 cursor-pointer"
             >
               Delete
             </div>

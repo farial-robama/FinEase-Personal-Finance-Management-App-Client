@@ -18,7 +18,7 @@ const TransactionCard = ({transaction, onDelete, onUpdate}) => {
                 </div>
                 <p className='btn bg-[#648DB3] text-[#EAEFEF] rounded-md px-2 py-1'>{category}</p>
                <p className='flex gap-2 items-center'>
-                <img src={dateIcon} className='w-5' />{date}</p>
+                <img src={dateIcon} className='w-5' /><span className='text-gray-800'>{date}</span></p>
             </div>
             
             <div className='flex flex-col gap-2 items-end'>

@@ -15,16 +15,16 @@ const Overview = () => {
     }, [])
 
     const calculateSummary = (data) => {
-        const income = data.filter((t) => t.type === "income").reduce((acc, curr) => acc + parseFloat(curr.amount), 0);
+        const income = data.filter((t) => t.type === "Income").reduce((acc, curr) => acc + parseFloat(curr.amount || 0 ), 0);
 
-        const expense = data.fiter((t) => t.type === "expense").reduce((acc,curr) => acc + parseFloat(curr.amount), 0);
+        const expense = data.filter((t) => t.type === "Expense").reduce((acc,curr) => acc + parseFloat(curr.amount || 0 ), 0);
         const balance = income - expense;
         setSummary({ income, expense, balance })
     }
 
     return (
         <div className='my-10'>
-            <h2 className='text-2xl font-semibold text-center mb-7'>Overview</h2>
+            <h2 className='text-gray-800 text-2xl font-semibold text-center mb-7'>Overview</h2>
             <div className='flex gap-4 justify-center'>
                 <div className='bg-[#1D546C] rounded-2xl px-10 py-15 w-full text-center'>
                     <h1 className='text-white'>Total Income</h1>

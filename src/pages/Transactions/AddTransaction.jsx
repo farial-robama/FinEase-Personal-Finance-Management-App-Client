@@ -92,6 +92,22 @@ const AddTransaction = () => {
       <div className="card-body">
         <form onSubmit={handleSubmit} className=" flex flex-col space-y-2.5">
           <fieldset className="fieldset">
+            <input
+              type="text"
+              name="userName"
+              value={user?.displayName}
+              placeholder="User Name"
+              className="input input-bordered w-full"
+              readOnly
+            />
+             <input
+              type="text"
+              name="userEame"
+              value={user?.email}
+              placeholder="User Email"
+              className="input input-bordered w-full"
+              readOnly
+            />
             <select
               defaultValue="Text"
               name="type"

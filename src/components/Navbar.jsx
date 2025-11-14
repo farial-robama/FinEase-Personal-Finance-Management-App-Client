@@ -1,11 +1,27 @@
-import React, { use } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import toast from "react-hot-toast";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 const Navbar = () => {
   const {user, signOutUser, loading} = use(AuthContext)
   const location = useLocation()
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || "light")
+
+
+  const handleTheme = (checked) => {
+    setTheme(checked ? "dark" : "light")
+  }
+
+
+  useEffect(() => {
+    const html = document.querySelector('html')
+    html.setAttribute("data-theme", theme)
+    localStorage.setItem("theme", theme)
+  }, [theme])
+
+
   const links = [
     { name: "Home", to: "/" },
     {
@@ -154,6 +170,10 @@ const Navbar = () => {
           </div>
         )
       }
+
+      <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className=" toggle  p-2 rounded-4xl bg-[#6E8CFB] dark:bg-[#B7E5CD] ml-3">
+        {theme === "dark" ? <FaSun></FaSun> : <FaMoon></FaMoon>}
+      </button>
         
       </div>
     </div>

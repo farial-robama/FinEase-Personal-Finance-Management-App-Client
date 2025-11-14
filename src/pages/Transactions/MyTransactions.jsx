@@ -112,7 +112,7 @@ const MyTransactions = () => {
   return (
     <div className="mx-auto">
       <div className="flex justify-between items-center mb-5">
-        <h2 className="font-bold text-xl ">
+        <h2 className="font-bold text-xl text-gray-800">
           My Transactions ({transactions.length})
         </h2>
 

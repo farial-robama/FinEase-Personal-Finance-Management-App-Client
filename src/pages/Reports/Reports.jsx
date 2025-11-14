@@ -75,11 +75,11 @@ const options = {
 }
 
     return (
-        <div className='mx-auto'>
-            <h1 className='text-2xl font-bold text-center mb-10'>Finalcial Reports</h1>
+        <div className='mx-auto my-7'>
+            <h1 className='text-2xl font-bold text-center text-gray-800 mb-10'>Finalcial Reports</h1>
 
-            <div className='mb-10 text-center'>
-                <label className='mr-3 font-semibold'>Filter by month</label>
+            <div className='mb-15 text-center'>
+                <label className='mr-3 font-semibold text-gray-800'>Filter by month</label>
                 <select
               defaultValue="Text"
               name="type"
@@ -105,14 +105,14 @@ const options = {
             </div>
 
             <div>
-                <h2 className='text-xl font-semibold mb-2'>Category Distribution</h2>
+                <h2 className='text-xl font-semibold text-gray-800 mb-2'>Category Distribution</h2>
                 <div className='w-full h-80 mx-auto'>
                     <Pie data={pieData}  options={options}></Pie>
                 </div>
             </div>
 
-            <div>
-                <h2 className='text-xl font-semibold mb-2'>Monthly Totals</h2>
+            <div className='mt-10'>
+                <h2 className='text-xl font-semibold text-gray-800 mb-2'>Monthly Totals</h2>
                 <div className='w-full h-80 mx-auto'>
                     <Bar data={barData} options={options}></Bar>
                 </div>
