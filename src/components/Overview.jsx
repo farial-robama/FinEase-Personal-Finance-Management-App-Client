@@ -1,14 +1,16 @@
 import { div } from 'framer-motion/m';
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import { useEffect } from 'react';
 import { Link } from 'react-router';
+import { AuthContext } from '../contexts/AuthContext';
 
 const Overview = () => {
+    const { user } = use(AuthContext)
     const [transactions, setTransactions] = useState([]);
     const [summary, setSummary] = useState({ income: 0, expense: 0, balance:0 })
 
     useEffect(() => {
-        fetch("https://finease-personal-finance-management.vercel.app/transactions")
+        fetch(`https://finease-personal-finance-management.vercel.app/transactions/${user?.email}`)
         .then((res) => res.json())
         .then((data) => {
             setTransactions(data);

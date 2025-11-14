@@ -74,19 +74,9 @@ const Login = () => {
                   >
                     {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
                   </span>
-                </div>
+                </div>            
 
-                <div>
-                  <Link
-                    to="/auth/forget-password"
-                    state={{ email }}
-                    className="link link-hover font-bold text-red-600"
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
-
-                <button className="btn btn-active btn-info text-white">
+                <button className="btn btn-active btn-info text-white mt-3.5">
                   Login
                 </button>
 
@@ -130,7 +120,7 @@ const Login = () => {
                     Don't have an account?
                     <Link
                       to="/auth/register"
-                      className="text-[#954ef9] text-sm font-bold link link-hover"
+                      className="text-[#954ef9] text-sm font-bold link link-hover ml-3"
                     >
                       Register
                     </Link>

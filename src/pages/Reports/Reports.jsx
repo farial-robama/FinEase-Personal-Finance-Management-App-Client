@@ -32,20 +32,29 @@ const filteredTransactions = transactions.filter((transaction) => {
     return txDate.getMonth() + 1 === parseInt(month);
 })
 
-const categoryTotals = filteredTransactions.reduce((acc, tx) => {
-    const amt = parseFloat(tx.amount || 0)
+const incomeTransactions = filteredTransactions.filter(tx => tx.type === "Income")
+const expenseTransactions = filteredTransactions.filter(tx => tx.type === "Expense")
+
+const calculateCategoryTotals = (txArray) => {
+    return txArray.reduce((acc,tx) => {
+        const amt = parseFloat(tx.amount || 0)
     if (!acc[tx.category]) acc[tx.category] = 0; 
     acc[tx.category] +=amt;
     return acc;
-}, {})
+    }, {})
+}
 
 
-const pieData = {
-    labels: Object.keys(categoryTotals).length ? Object.keys(categoryTotals) : ["No data"],
+const incomeCategoryTotals = calculateCategoryTotals(incomeTransactions);
+const expenseCategoryTotals = calculateCategoryTotals(expenseTransactions);
+
+
+const incomePieData = {
+    labels: Object.keys(incomeCategoryTotals).length ? Object.keys(incomeCategoryTotals) : ["No data"],
     datasets: [
         {
             label: "Category Distribution",
-            data: Object.values(categoryTotals),
+            data: Object.values(incomeCategoryTotals),
             backgroundColor: [
                 "#FF6384",
                 "#36A2EB",
@@ -58,20 +67,59 @@ const pieData = {
     ]
 }
 
-const monthlyTotals = filteredTransactions.reduce((acc,tx) => {
-    const monthNum = new Date(tx.date).getMonth() + 1;
+
+
+const expensePieData = {
+    labels: Object.keys(expenseCategoryTotals).length ? Object.keys(expenseCategoryTotals) : ["No data"],
+    datasets: [
+        {
+            label: "Category Distribution",
+            data: Object.values(expenseCategoryTotals),
+            backgroundColor: [
+                "#8C00FF",
+                "#92487A",
+                "#DC0E0E",
+                "#FE6244",
+                "#FE6244",
+                "#92487A"
+            ]
+        }
+    ]
+}
+
+const calculateMonthlyTotals = (txArray) => {
+    return txArray.reduce((acc,tx) => {
+        const monthNum = new Date(tx.date).getMonth() + 1;
     if (!acc[monthNum]) acc[monthNum] = 0;
     acc[monthNum] +=tx.amount;
     return acc;
-}, {})
+    }, {})
+}
 
-const barData = {
+
+const monthlyIncomeTotals = calculateMonthlyTotals(incomeTransactions);
+const monthlyExpenseTotals = calculateMonthlyTotals(expenseTransactions);
+
+
+
+const incomeBarData = {
     labels: Array.from({ length: 12}, (_, i) => `Month ${i + 1}`),
     datasets: [
         {
             label: "Monthly Totals",
-            data: Array.from({ length: 12 },(_, i) => monthlyTotals[i + 1] || 0 ),
+            data: Array.from({ length: 12 },(_, i) => monthlyIncomeTotals[i + 1] || 0 ),
             backgroundColor: "#36A2EB"
+        }
+    ]
+}
+
+const expenseBarData = {
+    labels: Array.from({ length: 12}, (_, i) => `Month ${i + 1}`),
+    datasets: [
+        {
+            label: "Monthly Totals",
+            data: Array.from({ length: 12 },(_, i) => monthlyExpenseTotals[i + 1] || 0 ),
+            backgroundColor: "#FF6384"
         }
     ]
 }
@@ -80,14 +128,7 @@ const barData = {
 const options = {
     responsive: true,
     maintainAspectRatio: false,
-    // plugins: {
-    //     title: {
-    //         display: true,
-    //         text: "Category Distribution",
-    //         font: { size: 18, weight: "bold"},
-    //         padding: 10
-    //     }
-    // }
+    
 }
 
     return (
@@ -118,19 +159,36 @@ const options = {
               <option value="11">November</option>
               <option value="12">December</option>
             </select>
+
             </div>
 
-            <div>
-                <h2 className='text-xl text-center md:text-left font-semibold text-gray-800 mb-8'>Category Distribution</h2>
-                <div className='w-full h-80 mx-auto'>
-                    <Pie data={pieData}  options={options}></Pie>
+
+                <div className='flex flex-col md:flex-row gap-15 items-center justify-center'>
+                    <div >
+                <h2 className='text-xl text-center  font-semibold text-gray-800 mb-8'>Income by Category</h2>
+                <div className='w-50 md:w-full h-80 mx-auto'>
+                    <Pie data={incomePieData}  options={options}></Pie>
                 </div>
             </div>
+            <div className=''>
+                <h2 className='text-xl text-center font-semibold text-gray-800 mb-8'>Expense by Category</h2>
+                <div className='w-50 md:w-full max-w-sm h-80 mx-auto'>
+                    <Pie data={expensePieData}  options={options}></Pie>
+                </div>
+            </div>
+                </div>
+           
 
-            <div className='mt-18'>
-                <h2 className='text-xl text-center md:text-left font-semibold text-gray-800 mb-8'>Monthly Totals</h2>
+            <div className='mt-18 border-gray-400 border-t border-dashed'>
+                <h2 className='text-xl text-center font-semibold text-gray-800 mt-5 mb-8'>Monthly Income</h2>
                 <div className='w-full h-80 mx-auto'>
-                    <Bar data={barData} options={options}></Bar>
+                    <Bar data={incomeBarData} options={options}></Bar>
+                </div>
+            </div>
+            <div className='mt-18'>
+                <h2 className='text-xl text-center font-semibold text-gray-800 mb-8'>Monthly Expense</h2>
+                <div className='w-full h-80 mx-auto'>
+                    <Bar data={expenseBarData} options={options}></Bar>
                 </div>
             </div>
             

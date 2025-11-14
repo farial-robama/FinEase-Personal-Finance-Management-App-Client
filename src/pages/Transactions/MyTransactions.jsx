@@ -168,7 +168,7 @@ const MyTransactions = () => {
         <Loader></Loader>
       ) : sortedTransactions.length === 0 ? (
       
-        <p className="text-gray-400 font-bold">No data found</p>
+        <p className="text-gray-400 font-bold text-center my-7">No data found</p>
       ) : (
         <div className="flex flex-col gap-5">
           {sortedTransactions.map((transaction) => (

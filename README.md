@@ -46,7 +46,10 @@ FinEase is a modern personal finance management web application that helps user 
 
 ## Technologies Used 
 ### **Frontend**
- - React.js, Vite, JavaScript(ES6+), Tailwind CSS, DaisyUI 
+ - React.js 
+ - Vite 
+ - JavaScript(ES6+)
+ - Tailwind CSS
  - React Router 
  - Framer Motion 
  - Firebase Auth 

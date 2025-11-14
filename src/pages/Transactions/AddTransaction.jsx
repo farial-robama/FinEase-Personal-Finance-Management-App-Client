@@ -16,7 +16,7 @@ const AddTransaction = () => {
     "Gift",
     "Others",
   ];
-  const expenseCategories = ["Food", "Transport", "Rent", "Shopping", "Bills"];
+  const expenseCategories = ["Food", "Transport", "Rent", "Shopping", "Bills", "Others"];
 
   const [formData, setFormData] = useState({
     type: "",

@@ -45,28 +45,6 @@ const Register = () => {
       setError(err.message);
       toast.error("Registration failed! please try again");
     }
-
-    //   const response = await fetch("https://finease-personal-finance-management.vercel.app/users", {
-    //         method: "POST",
-    //         headers: { "Content-Type" : "application/json"},
-    //         body: JSON.stringify({
-    //             name,
-    //             email,
-    //             photoURL: photoURL || "/default-profile.png"
-    //         }),
-    //   });
-
-    //   const data = await response.json();
-    //   if (!response.ok) {
-    //     throw new Error(data.message || "Failed to add user")
-    //   }
-    //   toast.success(data.message || "Registtation successful!")
-
-    //   navigate("/");
-    // } catch (err) {
-    //   setError(err.message);
-    //   toast.error("Failed to register! Please try again.");
-    // }
   };
   const handleGoogleLogin = async (e) => {
     e.preventDefault();
@@ -145,7 +123,7 @@ const Register = () => {
                   </span>
                 </div>
 
-                <button className="btn btn-active btn-info text-white">
+                <button className="btn btn-active btn-info text-white mt-3">
                   Register
                 </button>
                 {/* Google Login */}
@@ -188,7 +166,7 @@ const Register = () => {
                     Already have an account?
                     <Link
                       to="/auth/login"
-                      className="text-[#954ef9] text-sm font-bold link link-hover"
+                      className="text-[#954ef9] text-sm font-bold link link-hover ml-3"
                     >
                       Login
                     </Link>

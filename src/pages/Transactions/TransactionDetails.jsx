@@ -77,7 +77,7 @@ const TransactionDetails = () => {
     return <Loader></Loader>;
   }
   if (!transaction) {
-    return <p className="text-gray-500 font-bold">No Data Found</p>;
+    return <p className="text-gray-500 font-bold text-center">No Data Found</p>;
   }
 
   return (
