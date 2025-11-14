@@ -133,7 +133,7 @@ const options = {
 
     return (
         <div className='mx-auto my-7'>
-            <h1 className='text-2xl font-bold text-center text-gray-800 mb-10'>Finalcial Reports</h1>
+            <h1 className='text-2xl font-bold text-center text-gray-800 mb-10'>Financial Reports</h1>
 
             <div className='mb-15 text-center'>
                 <label className='mr-3 font-semibold text-gray-800'>Filter by month</label>
