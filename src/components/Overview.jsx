@@ -16,7 +16,7 @@ const Overview = () => {
             setTransactions(data);
             calculateSummary(data);
         })
-    }, [])
+    }, [user])
 
     const calculateSummary = (data) => {
         const income = data.filter((t) => t.type === "Income").reduce((acc, curr) => acc + parseFloat(curr.amount || 0 ), 0);
