@@ -11,6 +11,7 @@ import PrivateRoute from "./PrivateRoute";
 import TransactionDetails from "../pages/Transactions/TransactionDetails";
 import UpdateTransaction from "../pages/Transactions/UpdateTransaction";
 import UpdateProfile from "../pages/Profile/UpdateProfile";
+import NotFound from "../pages/ErrorPage/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -66,6 +67,10 @@ export const router = createBrowserRouter([
       {
         path: "/auth/register",
         element: <Register></Register>,
+      },
+      {
+        path: "*",
+        element: <NotFound></NotFound>,
       },
     ],
   },

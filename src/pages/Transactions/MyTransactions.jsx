@@ -26,15 +26,6 @@ const MyTransactions = () => {
       setIsLoading(true);
 
       try {
-        // let query = "";
-        // if (sortOrder === "date-asc")
-        //   query = "sortField=createdAt&sortOrder=asc";
-        // else if (sortOrder === "date-desc")
-        //   query = "sortField=createdAt&sortOrder=desc";
-        // else if (sortOrder === "amount-asc")
-        //   query = "sortField=amount&sortOrder=asc";
-        // else if (sortOrder === "amount-desc")
-        //   query = "sortField=amount&sortOrder=desc";
 
         const res = await fetch(
           `https://finease-personal-finance-management.vercel.app/transactions/${user.email}`,

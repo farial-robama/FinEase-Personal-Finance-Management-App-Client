@@ -12,7 +12,7 @@ const NotFound = () => {
       </p>
       <button
         onClick={() => navigate(-1)}
-        className="btn bg-linear-to-br from-[#7A85C1] to-[#9F62F2] text-white"
+        className="button"
       >
         Go Back
       </button>

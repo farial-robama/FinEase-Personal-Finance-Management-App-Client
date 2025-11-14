@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
 import Loader from "../../components/Loader";
 import { AuthContext } from "../../contexts/AuthContext";
-import { FaCalendarDay, FaCross, FaDailymotion } from "react-icons/fa";
+import { FaCalendarDay } from "react-icons/fa";
 import { motion } from "framer-motion";
 import UpdateTransaction from "./UpdateTransaction";
 import useTitle from "../../Hooks/useTitle";
