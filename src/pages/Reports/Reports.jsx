@@ -2,11 +2,15 @@ import React, { use, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useState } from 'react';
 import { Bar, Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, BarElement, CategoryScale, Legend, LinearScale, Tooltip } from 'chart.js';
+import { Chart as ChartJS, ArcElement, BarElement, CategoryScale, Legend, LinearScale, Tooltip, plugins } from 'chart.js';
+import { title } from 'framer-motion/m';
+import useTitle from '../../Hooks/useTitle';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement)
 
 const Reports = () => {
+    useTitle("Reports")
+
     const { user } = use(AuthContext)
     const [transactions, setTransactions] = useState([]);
     const [month, setMonth] = useState("")
@@ -69,9 +73,18 @@ const barData = {
     ]
 }
 
+
 const options = {
     responsive: true,
     maintainAspectRatio: false,
+    // plugins: {
+    //     title: {
+    //         display: true,
+    //         text: "Category Distribution",
+    //         font: { size: 18, weight: "bold"},
+    //         padding: 10
+    //     }
+    // }
 }
 
     return (
@@ -105,14 +118,14 @@ const options = {
             </div>
 
             <div>
-                <h2 className='text-xl font-semibold text-gray-800 mb-2'>Category Distribution</h2>
+                <h2 className='text-xl text-center md:text-left font-semibold text-gray-800 mb-8'>Category Distribution</h2>
                 <div className='w-full h-80 mx-auto'>
                     <Pie data={pieData}  options={options}></Pie>
                 </div>
             </div>
 
-            <div className='mt-10'>
-                <h2 className='text-xl font-semibold text-gray-800 mb-2'>Monthly Totals</h2>
+            <div className='mt-18'>
+                <h2 className='text-xl text-center md:text-left font-semibold text-gray-800 mb-8'>Monthly Totals</h2>
                 <div className='w-full h-80 mx-auto'>
                     <Bar data={barData} options={options}></Bar>
                 </div>

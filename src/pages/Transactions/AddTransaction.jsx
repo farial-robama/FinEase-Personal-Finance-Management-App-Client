@@ -2,8 +2,10 @@ import React, { use, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+import useTitle from "../../Hooks/useTitle";
 
 const AddTransaction = () => {
+  useTitle("Transaction")
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 

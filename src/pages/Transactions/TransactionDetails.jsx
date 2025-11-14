@@ -6,8 +6,10 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { FaCalendarDay, FaCross, FaDailymotion } from "react-icons/fa";
 import { motion } from "framer-motion";
 import UpdateTransaction from "./UpdateTransaction";
+import useTitle from "../../Hooks/useTitle";
 
 const TransactionDetails = () => {
+  useTitle("Transaction Details")
   const { id } = useParams();
   const { user } = use(AuthContext);
   const [transaction, setTransaction] = useState(null);
@@ -81,7 +83,7 @@ const TransactionDetails = () => {
   return (
     <div>
       <motion.div
-        className="card w-96 shadow-lg mx-auto bg-[#AAC4F5] border-2 border-[#cfc6b6]
+        className="card md:w-96 shadow-lg mx-auto bg-[#AAC4F5] border-2 border-[#cfc6b6]
         text-gray-800"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -93,8 +95,8 @@ const TransactionDetails = () => {
             See Details!
           </span>
           <div className="flex justify-between items-center border-b border-dashed border-gray-500 pb-3">
-            <h2 className="text-3xl font-bold">{transaction.type}</h2>
-            <span className="text-3xl">${transaction.amount}</span>
+            <h2 className=" text-2xl md:text-3xl font-bold">{transaction.type}</h2>
+            <span className="text-3xl md:text-4xl">${transaction.amount}</span>
           </div>
           <div className="flex flex-col border-b border-dashed border-gray-500 pb-3">
             <h1 className="pb-2 font-semibold">Category</h1>
@@ -113,6 +115,12 @@ const TransactionDetails = () => {
           </div>
 
           <div className="card-actions justify-end pt-3.5">
+            <div
+              onClick={() => navigate("/transaction/my")}
+              className="badge white-outline bg-[#c9dcc0] text-gray-800 cursor-pointer"
+            >
+              Back
+            </div>
             <div
               onClick={() => setIsModalOpen(true)}
               className="badge white-outline bg-[#c9dcc0] text-gray-800 cursor-pointer"

@@ -28,13 +28,13 @@ const Overview = () => {
 const cards = [
     {title: "Total Income", value: summary.income, color: "from-[#3A6F43] to-[#799EFF]"},
     {title: "Total Expense", value: summary.expense, color: "from-[#FB4141] to-[#FF9B2F]"},
-    {title: "Balance", value: summary.balance, color: "from-blue-600 to-[#9B5DE0]"}
+    {title: "Total Balance", value: summary.balance, color: "from-blue-600 to-[#9B5DE0]"}
 ]
 
 
 
     return (
-        <div className='bg-[#c7dbc5] p-7 rounded-2xl my-10'>
+        <div className='bg-[#d6e7d5] p-7 rounded-2xl my-10'>
             <h2 className='text-gray-800 text-2xl font-semibold text-center mb-7'>Overview</h2>
             <div className='flex gap-4 justify-center'>
                 {cards.map((card, index) => (

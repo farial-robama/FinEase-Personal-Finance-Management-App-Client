@@ -2,8 +2,11 @@ import React, { use, useState } from 'react';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router';
+import useTitle from '../../Hooks/useTitle';
 
 const UpdateProfile = () => {
+  useTitle("Update Profile")
+
     const { user, setUser, updateUser } = use(AuthContext);
   const [name, setName] = useState(user?.displayName || "");
   const [photoURL, setPhotoURL] = useState(user?.photoURL || "");

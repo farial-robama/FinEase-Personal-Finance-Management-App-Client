@@ -104,7 +104,7 @@ const Navbar = () => {
             )}
           </ul>
         </div>
-        <div className="flex"><img src="/logo.png" className="w-10" /><a className="btn btn-ghost text-xl">FinEase</a></div>
+        <div className="flex"><img src="/logo.png" className="w-10 hidden md:block" /><a className="btn btn-ghost text-xl">FinEase</a></div>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">

@@ -6,9 +6,11 @@ import TransactionCard from "./TransactionCard";
 import Loader from "../../components/Loader";
 import { Navigate, useLocation } from "react-router";
 import UpdateTransaction from "./UpdateTransaction";
+import useTitle from "../../Hooks/useTitle";
 
 
 const MyTransactions = () => {
+  useTitle("My Transaction")
   const { user, loading } = useContext(AuthContext);
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -182,7 +184,7 @@ const MyTransactions = () => {
 
       {/* update transaction */}
       {isModalOpen && selectedTransaction && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50">
           <div className="bg-white rounded-xl p-6 w-96 shadow-lg relative">
             <UpdateTransaction
               transaction={selectedTransaction}
