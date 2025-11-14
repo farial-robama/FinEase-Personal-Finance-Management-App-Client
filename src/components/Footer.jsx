@@ -14,9 +14,10 @@ const Footer = () => {
   <nav>
     <h6 className="footer-title">Company</h6>
     <a className="link link-hover">About us</a>
-    <a className="link link-hover">Contact</a>
     <a className="link link-hover">Jobs</a>
-    <a className="link link-hover">Press kit</a>
+    <a className="link link-hover">Contact: info@finase.com</a>
+    <a className="link link-hover">Phone: +880123456789</a>
+    <a className="link link-hover">Address: Dhaka, Bangladesh</a>
   </nav>
   <nav>
     <h6 className="footer-title">Legal</h6>
@@ -31,7 +32,7 @@ const Footer = () => {
     <p>
       FinEase
       <br />
-      Personal Finance Mnagement App
+      Personal Finance Management App
     </p>
   </aside>
   <nav className="md:place-self-center md:justify-self-end">
