@@ -49,7 +49,7 @@ const UpdateProfile = () => {
 
             <button
               type="submit"
-              className="btn btn-active bg-linear-to-br from-[#7A85C1] to-[#9F62F2] text-white mt-4"
+              className="btn btn-active bg-linear-to-br from-[#6e82f1] to-[#5923a4] text-white mt-4"
             >
               Update Information
             </button>
@@ -57,7 +57,7 @@ const UpdateProfile = () => {
               Don't want to update?
               <Link
                 to="/my-profile"
-                className="text-[#954ef9] text-sm font-bold link link-hover pl-2"
+                className="text-[#8061ab] text-sm font-bold link link-hover pl-2"
               >
                 My Profile
               </Link>

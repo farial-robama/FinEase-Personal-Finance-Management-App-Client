@@ -15,21 +15,21 @@ const MyProfile = () => {
         />
       </figure>
       <div className="card-body items-center text-center">
-        <h2 className="card-title text-[#7A85C1]">
+        <h2 className="card-title text-[#8061ab]">
           {user?.displayName || "User_Name"}
         </h2>
-        <p className="text-[#7A85C1] font-semibold pb-3">
+        <p className="text-[#8061ab] font-semibold pb-3">
           {user?.email || "User_Email"}
         </p>
         <div className="card-actions">
           <button
             onClick={() => navigate("/update-profile")}
-            className="btn btn-active bg-linear-to-br from-[#7A85C1] to-[#9F62F2] text-white"
+            className="btn btn-active bg-linear-to-br from-[#6e82f1] to-[#5923a4] text-white"
           >
             Update Profile
           </button>
           <Link to="/">
-            <button className="btn bg-linear-to-br from-[#7A85C1] to-[#9F62F2] text-white">
+            <button className="btn bg-linear-to-br from-[#6e82f1] to-[#5923a4] text-white">
               Go Home
             </button>
           </Link>

@@ -10,10 +10,6 @@ const Navbar = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || "light")
 
 
-  const handleTheme = (checked) => {
-    setTheme(checked ? "dark" : "light")
-  }
-
 
   useEffect(() => {
     const html = document.querySelector('html')
@@ -108,7 +104,7 @@ const Navbar = () => {
             )}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">FinEase</a>
+        <div className="flex"><img src="/logo.png" className="w-10" /><a className="btn btn-ghost text-xl">FinEase</a></div>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">

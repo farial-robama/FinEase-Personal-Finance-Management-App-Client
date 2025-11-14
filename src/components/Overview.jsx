@@ -1,5 +1,7 @@
+import { div } from 'framer-motion/m';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
+import { Link } from 'react-router';
 
 const Overview = () => {
     const [transactions, setTransactions] = useState([]);
@@ -22,24 +24,36 @@ const Overview = () => {
         setSummary({ income, expense, balance })
     }
 
+
+const cards = [
+    {title: "Total Income", value: summary.income, color: "from-[#3A6F43] to-[#799EFF]"},
+    {title: "Total Expense", value: summary.expense, color: "from-[#FB4141] to-[#FF9B2F]"},
+    {title: "Balance", value: summary.balance, color: "from-blue-600 to-[#9B5DE0]"}
+]
+
+
+
     return (
-        <div className='my-10'>
+        <div className='bg-[#c7dbc5] p-7 rounded-2xl my-10'>
             <h2 className='text-gray-800 text-2xl font-semibold text-center mb-7'>Overview</h2>
             <div className='flex gap-4 justify-center'>
-                <div className='bg-[#1D546C] rounded-2xl px-10 py-15 w-full text-center'>
-                    <h1 className='text-white'>Total Income</h1>
-                    <p className='text-white'>${summary.income}</p>
-                </div>
-                <div className='bg-[#658C58] rounded-2xl px-10 py-15 w-full text-center'>
-                    <h1 className='text-white'>Total Expense</h1>
-                    <p className='text-white'>${summary.expense}</p>
-                </div>
-                <div className='bg-[#8FABD4] rounded-2xl px-10 py-15 w-full text-center'>
-                    <h1 className='text-white'>Balance</h1>
-                    <p className='text-white'>${summary.balance}</p>
-                </div>
+                {cards.map((card, index) => (
+                    <div key={index} className={`relative w-64 h-48 rounded-xl bg-gradient-to-br ${card.color} text-white flex items-center justify-center overflow-hidden shadow-2xl`}>
+                        <div className='absolute w-3 h-3 bg-white rounded-full shadow-[0_0_15px_white] animate-ping-slow top-5 right-5'></div>
+
+                        <div className='absolute w-56 h-10 bg-white/20 rounded-full blur-xl animate-spin-slow'></div>
+
+                        <div className='relative z-10 text-center'>
+                        <h1 className='text-lg md:text-xl font-bold text-white'>{card.title}</h1>
+                        <p className='text-xl font-extrabold text-white'>${card.value}</p>
+                    </div>
+                    </div>
+                ))}
+               
             </div>
-            
+           <div className='text-center my-10'>
+             <Link to="/transaction/my" className='button'>See Your Transaction</Link>
+           </div>
         </div>
     );
 };

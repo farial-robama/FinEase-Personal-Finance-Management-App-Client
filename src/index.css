@@ -38,3 +38,28 @@ body {
   transform: scale(1);
 }
 
+
+@keyframes ping-slow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-ping-slow {
+  animation: ping-slow 2s cubic-bezier(3,6,3,2,1) infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 6s linear infinite;
+}
+
+

@@ -1,24 +1,27 @@
 import React from "react";
+import { Link } from "react-router";
 
 const SmartFinance = () => {
   return (
     <div className="mx-auto">
-      <div className="flex justify-between gap-7 items-center my-15">
+      <div className="flex flex-col-reverse md:flex-row gap-10 justify-between items-center my-15">
         <div className="flex flex-col gap-5">
           <h1 className=" text-gray-600 text-3xl font-bold">
             Why Financial Planning Matters?
           </h1>
           <p className="text-gray-600 text-xl">
-            Every financial decision shapes your future. <span>FinEase</span>{" "}
+            Every financial decision shapes your future. <br /> <span className="font-bold">FinEase</span>{" "}
             empowers you to plan, track, and achieve financial goals with ease
             and confidence.
           </p>
         </div>
-        <img className="rounded-md" src="/finance2.png" alt="image" />
+        
+          <img className="rounded-md md:w-130 w-full" src="/finance2.png" alt="image" />
+        
       </div>
 
-      <div className="flex justify-between items-center my-7">
-        <img className="rounded-md" src="/finance1.png" alt="image" />
+      <div className="flex flex-col md:flex-row gap-7 justify-between items-center my-7">
+        <img className="rounded-md md:w-130 w-full" src="/finance1.png" alt="image" />
         <div className="flex flex-col gap-5">
           <h1 className="text-gray-600 text-3xl font-bold">Budgeting Tips</h1>
 
@@ -41,6 +44,11 @@ const SmartFinance = () => {
           </ul>
         </div>
       </div>
+
+      <div className='text-center my-10'>
+             <Link to="/transaction" className='button'>Add Your Transaction</Link>
+           </div>
+
     </div>
   );
 };
