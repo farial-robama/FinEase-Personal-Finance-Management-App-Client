@@ -163,16 +163,16 @@ const options = {
             </div>
 
 
-                <div className='flex flex-col md:flex-row gap-15 items-center justify-center'>
+                <div className='flex flex-col md:flex-row gap-18 items-center justify-center'>
                     <div >
                 <h2 className='text-xl text-center  font-semibold text-gray-800 mb-8'>Income by Category</h2>
-                <div className='w-50 md:w-full h-80 mx-auto'>
+                <div className='w-60 md:w-full h-80 mx-auto'>
                     <Pie data={incomePieData}  options={options}></Pie>
                 </div>
             </div>
             <div className=''>
                 <h2 className='text-xl text-center font-semibold text-gray-800 mb-8'>Expense by Category</h2>
-                <div className='w-50 md:w-full max-w-sm h-80 mx-auto'>
+                <div className='w-60 md:w-full max-w-sm h-80 mx-auto'>
                     <Pie data={expensePieData}  options={options}></Pie>
                 </div>
             </div>
