@@ -8,14 +8,14 @@ const SmartFinance = () => {
                     <h1 className='text-3xl font-bold'>Why Financial Planning Matters?</h1>
                 <p className='text-gray-600 text-xl'>Every financial decision shapes your future. <span>FinEase</span> empowers you to plan, track, and achieve financial goals with ease and confidence.</p>
                 </div>
-                <img src="/finance2.png" alt="image" />
+                <img className='rounded-md' src="/finance2.png" alt="image" />
             </div>
 
             <div className='flex justify-between items-center my-7'>
-                <img src="/finance1.png" alt="image" />
+                <img className='rounded-md' src="/finance1.png" alt="image" />
                 <div className='flex flex-col gap-5'>
                     <h1 className='text-3xl font-bold'>Budgeting Tips</h1>
-                <p className='text-gray-600'>- Track every expense, no matter how small. <br />
+                <p className='text-gray-600 text-xl'>- Track every expense, no matter how small. <br />
                 - Set monthly spending limits for each category. <br />
                 - Always pay yourself first - save before you spend. <br />
                 - Review and adjust your budget regularly. <br />
