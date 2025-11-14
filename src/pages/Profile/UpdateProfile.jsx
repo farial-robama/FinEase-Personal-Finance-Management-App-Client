@@ -7,7 +7,7 @@ import useTitle from '../../Hooks/useTitle';
 const UpdateProfile = () => {
   useTitle("Update Profile")
 
-    const { user, setUser, updateUser } = use(AuthContext);
+    const { user, setUser, updateUserProfile } = use(AuthContext);
   const [name, setName] = useState(user?.displayName || "");
   const [photoURL, setPhotoURL] = useState(user?.photoURL || "");
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const UpdateProfile = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      await updateUser({ displayName: name, photoURL });
+      await updateUserProfile({ displayName: name, photoURL });
       setUser({ ...user, displayName: name, photoURL });
       toast.success("Profile updated successfully!!");
       navigate("/my-profile");

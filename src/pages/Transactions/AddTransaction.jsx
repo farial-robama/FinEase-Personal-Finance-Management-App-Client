@@ -53,6 +53,7 @@ const AddTransaction = () => {
 
     const payload = {
       ...formData,
+      amount: parseFloat(formData.amount),
       userName: user.displayName,
       userEmail: user.email,
       date: formData.date || new Date().toISOString().split("T")[0],
@@ -78,7 +79,7 @@ const AddTransaction = () => {
           description: "",
           date: "",
           userEmail: user?.email,
-          userName: user.displayName,
+          userName: user?.displayName,
         });
       } else {
         toast.error(data.message || "Failed to add transaction");
@@ -104,7 +105,7 @@ const AddTransaction = () => {
             />
              <input
               type="text"
-              name="userEame"
+              name="email"
               value={user?.email}
               placeholder="User Email"
               className="input input-bordered w-full"

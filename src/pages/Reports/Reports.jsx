@@ -27,12 +27,15 @@ useEffect(() => {
 
 const filteredTransactions = transactions.filter((transaction) => {
     if (!month) return true;
-    return new Date(transaction.date).getMonth() + 1 === parseInt(month);
+
+    const txDate = transaction.date ? new Date(transaction.date) : new Date(transaction.createdAt || null);
+    return txDate.getMonth() + 1 === parseInt(month);
 })
 
 const categoryTotals = filteredTransactions.reduce((acc, tx) => {
+    const amt = parseFloat(tx.amount || 0)
     if (!acc[tx.category]) acc[tx.category] = 0; 
-    acc[tx.category] +=tx.amount;
+    acc[tx.category] +=amt;
     return acc;
 }, {})
 
