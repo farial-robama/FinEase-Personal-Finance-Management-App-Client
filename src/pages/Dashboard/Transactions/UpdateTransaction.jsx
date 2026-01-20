@@ -1,8 +1,8 @@
 
 import { use, useState } from "react";
 import toast from "react-hot-toast";
-import { AuthContext } from "../../contexts/AuthContext";
-import useTitle from "../../Hooks/useTitle";
+import { AuthContext } from "../../../contexts/AuthContext";
+import useTitle from "../../../Hooks/useTitle";
 import { 
   DollarSign, 
   Calendar, 

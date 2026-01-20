@@ -2,11 +2,11 @@
 import React, { use, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
-import Loader from "../../components/Loader";
-import { AuthContext } from "../../contexts/AuthContext";
+import Loader from "../../../components/Loader";
+import { AuthContext } from "../../../contexts/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import UpdateTransaction from "./UpdateTransaction";
-import useTitle from "../../Hooks/useTitle";
+import useTitle from "../../../Hooks/useTitle";
 import {
   Calendar,
   DollarSign,

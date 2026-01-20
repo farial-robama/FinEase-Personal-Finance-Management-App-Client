@@ -1,12 +1,12 @@
 
 import React, { use, useEffect, useState } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
+import { AuthContext } from "../../../contexts/AuthContext";
 import Swal from "sweetalert2";
 import TransactionCard from "./TransactionCard";
-import Loader from "../../components/Loader";
 import { Navigate } from "react-router";
 import UpdateTransaction from "./UpdateTransaction";
-import useTitle from "../../Hooks/useTitle";
+import useTitle from "../../../Hooks/useTitle";
+import Loader from "../../../components/Loader";
 import {
   Filter,
   SortAsc,
@@ -20,6 +20,7 @@ import {
   AlertCircle,
   RefreshCw,
 } from "lucide-react";
+
 
 const MyTransactions = () => {
   useTitle("My Transactions");

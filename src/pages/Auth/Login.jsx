@@ -1,30 +1,22 @@
-
-import React, { use, useState } from "react";
+import React, { use, useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Link, useLocation, useNavigate } from "react-router";
 import toast from "react-hot-toast";
-import { 
-  Eye, 
-  EyeOff, 
-  Mail, 
-  Lock, 
-  LogIn,
-  Loader,
-  XCircle
-} from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, LogIn, Loader, XCircle, User } from "lucide-react";
 
 const Login = () => {
-  const { signInUser, signInWithGoogle, loading } = use(AuthContext);
-  
+  const { signInUser, signInWithGoogle, updateUserProfile, loading } =
+    useContext(AuthContext);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  
+
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -100,12 +92,12 @@ const Login = () => {
     try {
       await signInUser(formData.email, formData.password);
       toast.success("Logged in successfully! Welcome back!");
-      
+
       const from = location.state?.from?.pathname || "/";
       navigate(from, { replace: true });
     } catch (err) {
       console.error("Login error:", err);
-      
+
       if (err.code === "auth/user-not-found") {
         toast.error("No account found with this email. Please register first.");
         setErrors({ email: "User not found" });
@@ -124,40 +116,90 @@ const Login = () => {
     }
   };
 
+  // const handleGoogleLogin = async () => {
+  //   setIsSubmitting(true);
+
+  //   try {
+  //     const result = await signInWithGoogle();
+  //     const loggedUser = result.user;
+  //     const userName = loggedUser.displayName || "User";
+
+  //     toast.success(`Welcome back, ${userName}!`);
+
+  //     const from = location.state?.from?.pathname || "/";
+  //     navigate(from, { replace: true });
+  //   } catch (err) {
+  //     console.error("Google login error:", err);
+
+  //     if (err.code === "auth/popup-closed-by-user") {
+  //       toast.error("Login cancelled. Please try again.");
+  //     } else if (err.code === "auth/popup-blocked") {
+  //       toast.error("Popup blocked. Please allow popups for this site.");
+  //     } else {
+  //       toast.error("Google login failed. Please try again.");
+  //     }
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
   const handleGoogleLogin = async () => {
     setIsSubmitting(true);
-
     try {
       const result = await signInWithGoogle();
       const loggedUser = result.user;
       const userName = loggedUser.displayName || "User";
-      
-      toast.success(`Welcome back, ${userName}!`);
-      
-      const from = location.state?.from?.pathname || "/";
-      navigate(from, { replace: true });
+      const userPhoto = loggedUser.photoURL || "/default-profile.png";
+
+      // Update Firebase profile
+      await updateUserProfile({
+        displayName: userName,
+        photoURL: userPhoto,
+      });
+
+      // Save user to MongoDB backend
+      try {
+        await fetch(
+          "https://finease-personal-finance-management.vercel.app/users",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: userName,
+              email: loggedUser.email,
+              photoURL: userPhoto,
+            }),
+          },
+        );
+      } catch (backendError) {
+        console.error("Backend save error (non-critical):", backendError);
+      }
+
+      toast.success(`Welcome, ${userName}!`);
+      navigate("/");
     } catch (err) {
       console.error("Google login error:", err);
-      
+
       if (err.code === "auth/popup-closed-by-user") {
         toast.error("Login cancelled. Please try again.");
       } else if (err.code === "auth/popup-blocked") {
         toast.error("Popup blocked. Please allow popups for this site.");
+      } else if (err.code === "auth/unauthorized-domain") {
+        toast.error("This domain is not authorized. Please contact support.");
       } else {
-        toast.error("Google login failed. Please try again.");
+        toast.error(`Google login failed: ${err.message}`);
       }
     } finally {
       setIsSubmitting(false);
     }
   };
-
   const handleForgotPassword = () => {
     if (!formData.email) {
       toast.error("Please enter your email first");
       return;
     }
-    
-    // You can implement password reset here
+
     toast.success("Password reset link sent to your email!");
   };
 
@@ -169,8 +211,12 @@ const Login = () => {
           <div className="inline-block p-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full mb-4">
             <LogIn className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">Welcome Back</h1>
-          <p className="text-gray-600">Login to continue managing your finances</p>
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">
+            Welcome Back
+          </h1>
+          <p className="text-gray-600">
+            Login to continue managing your finances
+          </p>
         </div>
 
         {/* Login Form Card */}
@@ -241,7 +287,11 @@ const Login = () => {
                     disabled={isSubmitting}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                   >
-                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
                   </button>
                 </div>
                 {errors.password && (
@@ -259,7 +309,10 @@ const Login = () => {
                   id="remember"
                   className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
                 />
-                <label htmlFor="remember" className="ml-2 text-sm text-gray-600">
+                <label
+                  htmlFor="remember"
+                  className="ml-2 text-sm text-gray-600"
+                >
                   Remember me for 30 days
                 </label>
               </div>
@@ -293,7 +346,9 @@ const Login = () => {
                   <div className="w-full border-t border-gray-200"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white text-gray-500">Or continue with</span>
+                  <span className="px-4 bg-white text-gray-500">
+                    Or continue with
+                  </span>
                 </div>
               </div>
 
@@ -313,20 +368,68 @@ const Login = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 512 512"
                 >
-                  <path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73" />
-                  <path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55" />
-                  <path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341" />
-                  <path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57" />
+                  <path
+                    fill="#fbbc02"
+                    d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
+                  />
+                  <path
+                    fill="#ea4335"
+                    d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
+                  />
+                  <path
+                    fill="#34a853"
+                    d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
+                  />
+                  <path
+                    fill="#4285f4"
+                    d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
+                  />
                 </svg>
                 Continue with Google
               </button>
+
+              {/* Demo Credentials */}
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-200"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-4 bg-white text-gray-500">
+                    Quick Demo Access
+                  </span>
+                </div>
+              </div>
+
+              <button
+                onClick={() => {
+                  setFormData({
+                    email: "naila@gmail.com",
+                    password: "356690Da",
+                  });
+                  toast.success(
+                    "Demo credentials loaded! Click login to continue.",
+                    {
+                      icon: "🎯",
+                      duration: 3000,
+                    },
+                  );
+                }}
+                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200 text-blue-700 py-3 px-4 rounded-lg font-semibold hover:bg-gradient-to-r hover:from-blue-100 hover:to-purple-100 hover:border-blue-300 transition-all"
+              >
+                <User className="w-5 h-5" />
+                Try Demo Account
+              </button>
+
+              <p className="text-xs text-center text-gray-500">
+                Test the app without registration - all features available
+              </p>
 
               {/* Register Link */}
               <p className="text-center text-gray-600">
                 Don't have an account?{" "}
                 <Link
                   to="/auth/register"
-                  className="text-purple-600 hover:text-purple-700 font-semibold"
+                  className="text-indigo-600 hover:text-indigo-700 font-semibold"
                 >
                   Register now
                 </Link>
@@ -337,7 +440,9 @@ const Login = () => {
 
         {/* Benefits Section */}
         <div className="mt-8 bg-white rounded-xl shadow-md p-6">
-          <h3 className="font-bold text-gray-800 mb-3 text-center">Why Login to FinEase?</h3>
+          <h3 className="font-bold text-gray-800 mb-3 text-center">
+            Why Login to FinEase?
+          </h3>
           <ul className="space-y-2 text-sm text-gray-600">
             <li className="flex items-start gap-2">
               <span className="text-purple-600 mt-1">✓</span>

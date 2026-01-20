@@ -1,6 +1,5 @@
 
 import React, { use, useEffect, useState } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
 import { Bar, Pie, Line } from 'react-chartjs-2';
 import { 
   Chart as ChartJS, 
@@ -13,8 +12,9 @@ import {
   LineElement,
   PointElement
 } from 'chart.js';
-import useTitle from '../../Hooks/useTitle';
 import { TrendingUp, TrendingDown, DollarSign, Calendar } from 'lucide-react';
+import { AuthContext } from '../../../contexts/AuthContext';
+import useTitle from '../../../Hooks/useTitle';
 
 ChartJS.register(
   ArcElement, 
@@ -228,7 +228,7 @@ const Reports = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 py-8 bg-gradient-to-br from-purple-50 to-blue-50">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Financial Reports</h1>

@@ -180,6 +180,7 @@ const Register = () => {
       
       if (err.code === "auth/email-already-in-use") {
         toast.error("This email is already registered. Please login instead.");
+        navigate("/auth/login");
         setErrors({ email: "Email already in use" });
       } else if (err.code === "auth/weak-password") {
         toast.error("Password is too weak. Please choose a stronger password.");
@@ -191,29 +192,81 @@ const Register = () => {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    setIsSubmitting(true);
+  // const handleGoogleLogin = async () => {
+  //   setIsSubmitting(true);
 
+  //   try {
+  //     const result = await signInWithGoogle();
+  //     const loggedUser = result.user;
+  //     const userName = loggedUser.displayName || "User";
+  //     const userPhoto = loggedUser.photoURL || "/default-profile.png";
+      
+  //     await updateUserProfile({ 
+  //       displayName: userName, 
+  //       photoURL: userPhoto 
+  //     });
+      
+  //     toast.success(`Welcome, ${userName}!`);
+  //     navigate("/");
+  //   } catch (err) {
+  //     console.error("Google login error:", err);
+  //     toast.error("Google login failed. Please try again.");
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
+  const handleGoogleLogin = async () => {
+  setIsSubmitting(true);
+
+  try {
+    const result = await signInWithGoogle();
+    const loggedUser = result.user;
+    const userName = loggedUser.displayName || "User";
+    const userPhoto = loggedUser.photoURL || "/default-profile.png";
+    
+    // Update Firebase profile
+    await updateUserProfile({ 
+      displayName: userName, 
+      photoURL: userPhoto 
+    });
+
+    // Save user to MongoDB backend
     try {
-      const result = await signInWithGoogle();
-      const loggedUser = result.user;
-      const userName = loggedUser.displayName || "User";
-      const userPhoto = loggedUser.photoURL || "/default-profile.png";
-      
-      await updateUserProfile({ 
-        displayName: userName, 
-        photoURL: userPhoto 
+      await fetch('https://finease-personal-finance-management.vercel.app/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: userName,
+          email: loggedUser.email,
+          photoURL: userPhoto,
+        }),
       });
-      
-      toast.success(`Welcome, ${userName}!`);
-      navigate("/");
-    } catch (err) {
-      console.error("Google login error:", err);
-      toast.error("Google login failed. Please try again.");
-    } finally {
-      setIsSubmitting(false);
+    } catch (backendError) {
+      console.error("Backend save error (non-critical):", backendError);
     }
-  };
+    
+    toast.success(`Welcome, ${userName}!`);
+    navigate("/");
+  } catch (err) {
+    console.error("Google login error:", err);
+    
+    if (err.code === "auth/popup-closed-by-user") {
+      toast.error("Login cancelled. Please try again.");
+    } else if (err.code === "auth/popup-blocked") {
+      toast.error("Popup blocked. Please allow popups for this site.");
+    } else if (err.code === "auth/unauthorized-domain") {
+      toast.error("This domain is not authorized. Please contact support.");
+    } else {
+      toast.error(`Google login failed: ${err.message}`);
+    }
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 py-12 px-4">
@@ -468,7 +521,7 @@ const Register = () => {
                 Already have an account?{" "}
                 <Link
                   to="/auth/login"
-                  className="text-purple-600 hover:text-purple-700 font-semibold"
+                  className="text-indigo-600 hover:text-indigo-700 font-semibold"
                 >
                   Login here
                 </Link>
@@ -480,11 +533,11 @@ const Register = () => {
         {/* Terms & Privacy */}
         <p className="text-center text-xs text-gray-500 mt-6">
           By registering, you agree to our{" "}
-          <a href="#" className="text-purple-600 hover:underline">
+          <a href="#" className="text-indigo-600 hover:underline">
             Terms of Service
           </a>{" "}
           and{" "}
-          <a href="#" className="text-purple-600 hover:underline">
+          <a href="#" className="text-indigo-600 hover:underline">
             Privacy Policy
           </a>
         </p>

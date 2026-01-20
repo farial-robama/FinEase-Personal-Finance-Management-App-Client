@@ -1,9 +1,9 @@
 
 import React, { use, useEffect, useState } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
-import useTitle from "../../Hooks/useTitle";
+import { AuthContext } from "../../../contexts/AuthContext";
+import useTitle from "../../../Hooks/useTitle";
 import { 
   DollarSign, 
   TrendingUp, 
@@ -15,6 +15,7 @@ import {
   ArrowRight,
   CheckCircle
 } from "lucide-react";
+
 
 const AddTransaction = () => {
   useTitle("Add Transaction");

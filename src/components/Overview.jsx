@@ -21,7 +21,10 @@ const Overview = () => {
   const [monthlyComparison, setMonthlyComparison] = useState({ current: 0, previous: 0 });
 
   useEffect(() => {
-    if (!user?.email) return;
+    if (!user?.email) {
+      setLoading(false); 
+      return;
+    }
     
     setLoading(true);
     fetch(`https://finease-personal-finance-management.vercel.app/transactions/${user.email}`)
@@ -133,7 +136,7 @@ const Overview = () => {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Loading overview...</p>
         </div>
       </div>
@@ -250,7 +253,7 @@ const Overview = () => {
               <h3 className="text-lg font-semibold text-gray-900">Recent Transactions</h3>
             </div>
             <Link 
-              to="/transaction/my" 
+              to="/dashboard/transactions/my" 
               className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center gap-1"
             >
               View All
@@ -295,7 +298,7 @@ const Overview = () => {
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <Link 
-          to="/transaction/my" 
+          to="/dashboard/transactions/my" 
           className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 group"
         >
           View All Transactions
@@ -303,7 +306,7 @@ const Overview = () => {
         </Link>
         
         <Link 
-          to="/reports" 
+          to="/dashboard/reports" 
           className="px-8 py-4 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:border-gray-400 hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md flex items-center justify-center gap-2"
         >
           <PieChart size={20} />

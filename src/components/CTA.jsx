@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const CTA = () => {
   return (
@@ -9,9 +10,9 @@ const CTA = () => {
         <button className="px-8 py-4 bg-white text-blue-600 font-bold rounded-lg hover:bg-gray-100 transition-colors text-lg">
           Get Started Free
         </button>
-        <button className="px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-colors text-lg">
-          Watch Demo
-        </button>
+        <Link to="/about" className="px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-colors text-lg">
+          See Details
+        </Link>
       </div>
     </div>
   );

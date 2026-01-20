@@ -80,17 +80,17 @@ const Footer = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="/transaction" className="text-gray-300 hover:text-white transition-colors">
+                  <a href="/dashboard/transactions/add" className="text-gray-300 hover:text-white transition-colors">
                     Add Transaction
                   </a>
                 </li>
                 <li>
-                  <a href="/transaction/my" className="text-gray-300 hover:text-white transition-colors">
+                  <a href="/dashboard/transactions/my" className="text-gray-300 hover:text-white transition-colors">
                     My Transactions
                   </a>
                 </li>
                 <li>
-                  <a href="/reports" className="text-gray-300 hover:text-white transition-colors">
+                  <a href="/dashboard/reports" className="text-gray-300 hover:text-white transition-colors">
                     Reports
                   </a>
                 </li>
@@ -103,17 +103,17 @@ const Footer = () => {
               <ul className="space-y-2">
                 <li>
                   <a 
-                    href="https://docs.finease.com" 
+                    href="/about" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-gray-300 hover:text-white transition-colors"
                   >
-                    Documentation
+                    About
                   </a>
                 </li>
                 <li>
                   <a 
-                    href="https://support.finease.com" 
+                    href="/contact" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-gray-300 hover:text-white transition-colors"
@@ -121,7 +121,7 @@ const Footer = () => {
                     Help Center
                   </a>
                 </li>
-                <li>
+                {/* <li>
                   <a 
                     href="https://blog.finease.com" 
                     target="_blank" 
@@ -140,7 +140,7 @@ const Footer = () => {
                   >
                     Community
                   </a>
-                </li>
+                </li> */}
               </ul>
             </div>
 

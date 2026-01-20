@@ -1,12 +1,13 @@
 import { Mail } from 'lucide-react';
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 
 const Newsletter = () => {
   const [email, setEmail] = useState('');
 
   const handleSubmit = () => {
     if (email && email.includes('@')) {
-      alert(`Thanks for subscribing with: ${email}`);
+      toast.success(`Thanks for subscribing with: ${email}`);
       setEmail('');
     }
   };

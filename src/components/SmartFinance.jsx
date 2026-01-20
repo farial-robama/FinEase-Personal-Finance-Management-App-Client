@@ -257,7 +257,7 @@ const SmartFinance = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
             <Link
-              to="/transaction"
+              to="/dashboard/transactions/add"
               className="group flex items-center gap-3 px-8 py-4 bg-white text-blue-600 rounded-xl hover:bg-blue-50 transition-all font-semibold text-lg shadow-xl hover:shadow-2xl hover:scale-105"
             >
               Add Your First Transaction
@@ -265,7 +265,7 @@ const SmartFinance = () => {
             </Link>
             
             <Link
-              to="/reports"
+              to="/dashboard/reports"
               className="flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white rounded-xl hover:bg-white/20 transition-all font-semibold text-lg"
             >
               <LineChart size={20} />

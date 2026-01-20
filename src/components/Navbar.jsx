@@ -1,5 +1,5 @@
 
-import React, { use, useEffect, useState } from "react";
+import React, { use, useContext, useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import toast from "react-hot-toast";
@@ -16,30 +16,26 @@ import {
   Wallet,
   Plus,
   List,
-  Settings
+  Settings,
+  Contact,
+  Info,
+  Contact2
 } from "lucide-react";
 
 const Navbar = () => {
-  const { user, signOutUser, loading } = use(AuthContext);
+  const { user, signOutUser, loading } = useContext(AuthContext);
   const location = useLocation();
   const [theme, setTheme] = useState(localStorage.getItem('theme') || "light");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const [scrolled, setScrolled] = useState(false);
-
+ 
   useEffect(() => {
     const html = document.querySelector('html');
     html.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -47,31 +43,39 @@ const Navbar = () => {
     setActiveDropdown(null);
   }, [location.pathname]);
 
+  //   { 
+  //     name: "Home", 
+  //     to: "/",
+  //     icon: Home
+  //   },
+  //   {
+  //     name: "Transactions",
+  //     icon: Wallet,
+  //     sublinks: [
+  //       { name: "Add Transaction", to: "/transaction", icon: Plus },
+  //       { name: "My Transactions", to: "/transaction/my", icon: List },
+  //     ],
+  //   },
+  //   { 
+  //     name: "Reports", 
+  //     to: "/reports",
+  //     icon: BarChart3
+  //   },
+  //   { 
+  //     name: "Profile", 
+  //     to: "/my-profile",
+  //     icon: User
+  //   },
+  // ];
+  
   const links = [
-    { 
-      name: "Home", 
-      to: "/",
-      icon: Home
-    },
-    {
-      name: "Transactions",
-      icon: Wallet,
-      sublinks: [
-        { name: "Add Transaction", to: "/transaction", icon: Plus },
-        { name: "My Transactions", to: "/transaction/my", icon: List },
-      ],
-    },
-    { 
-      name: "Reports", 
-      to: "/reports",
-      icon: BarChart3
-    },
-    { 
-      name: "Profile", 
-      to: "/my-profile",
-      icon: User
-    },
-  ];
+  { name: "Home", to: "/", icon: Home },
+  { name: "Dashboard", to: "/dashboard", icon: BarChart3 }, 
+  { name: "Reports", to: "/dashboard/reports", icon: BarChart3 },
+  { name: "Profile", to: "/dashboard/profile", icon: User },
+  { name: "About", to: "/about", icon: Info },
+  { name: "Contact", to: "/contact", icon: Contact2 },
+];
 
   const handleLogout = async () => {
     try {
@@ -101,9 +105,9 @@ const Navbar = () => {
     sublinks.some(sub => sub.to === location.pathname);
 
   return (
-    <nav className={`sticky top-0 z-50 bg-base-100 transition-all duration-300 ${
-      scrolled ? 'shadow-lg backdrop-blur-lg bg-opacity-95' : 'shadow-sm'
-    }`}>
+    <nav className={`shadow-md fixed top-0 left-0 right-0 z-50 transition-colors ${
+        theme === 'dark' ? 'bg-gray-800' : 'bg-white'
+      }`}>
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -137,7 +141,7 @@ const Navbar = () => {
                     <button
                       className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
                         isActiveDropdown(link.sublinks)
-                          ? 'bg-blue-50 text-blue-600 font-semibold'
+                          ? 'bg-indigo-50 text-indigo-600 font-semibold'
                           : 'text-gray-700 hover:bg-gray-100'
                       }`}
                     >
@@ -162,7 +166,7 @@ const Navbar = () => {
                               className={({ isActive }) =>
                                 `flex items-center gap-3 px-4 py-2.5 transition-colors ${
                                   isActive
-                                    ? 'bg-blue-50 text-blue-600 font-semibold'
+                                    ? 'bg-indigo-50 text-indigo-600 font-semibold'
                                     : 'text-gray-700 hover:bg-gray-50'
                                 }`
                               }
@@ -185,7 +189,7 @@ const Navbar = () => {
                   className={({ isActive }) =>
                     `flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
                       isActive
-                        ? 'bg-blue-50 text-blue-600 font-semibold'
+                        ? 'bg-indigo-50 text-indigo-600 font-semibold'
                         : 'text-gray-700 hover:bg-gray-100'
                     }`
                   }
